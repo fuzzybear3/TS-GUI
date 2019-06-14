@@ -1,0 +1,7 @@
+﻿  pch.cpp
+  AssemblyInfo.cpp
+  MyForm.cpp
+  testApp2.cpp
+  Generating Code...
+  AssemblyInfo.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  testApp2.vcxproj -> C:\Users\steve\Documents\GitHub\TS-GUI\testApp2\Debug\testApp2.exe
