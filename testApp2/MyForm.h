@@ -39,7 +39,7 @@ namespace testApp2 {
 		}
 	private: System::Windows::Forms::TextBox^ textBox1;
 	private: System::Windows::Forms::Button^ button1;
-	private: System::Windows::Forms::CheckBox^ checkBox1;
+
 	private: System::IO::Ports::SerialPort^ serialPort1;
 	private: System::Windows::Forms::ComboBox^ COM_Ports;
 	private: System::Windows::Forms::ComboBox^ Baud_Rate;
@@ -83,7 +83,6 @@ namespace testApp2 {
 			this->components = (gcnew System::ComponentModel::Container());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->checkBox1 = (gcnew System::Windows::Forms::CheckBox());
 			this->serialPort1 = (gcnew System::IO::Ports::SerialPort(this->components));
 			this->COM_Ports = (gcnew System::Windows::Forms::ComboBox());
 			this->Baud_Rate = (gcnew System::Windows::Forms::ComboBox());
@@ -111,24 +110,13 @@ namespace testApp2 {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(465, 41);
+			this->button1->Location = System::Drawing::Point(403, 41);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(144, 55);
 			this->button1->TabIndex = 1;
 			this->button1->Text = L"Reset Text Box";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::Button1_Click);
-			// 
-			// checkBox1
-			// 
-			this->checkBox1->AutoSize = true;
-			this->checkBox1->Location = System::Drawing::Point(393, 149);
-			this->checkBox1->Name = L"checkBox1";
-			this->checkBox1->Size = System::Drawing::Size(80, 17);
-			this->checkBox1->TabIndex = 2;
-			this->checkBox1->Text = L"checkBox1";
-			this->checkBox1->UseVisualStyleBackColor = true;
-			this->checkBox1->CheckedChanged += gcnew System::EventHandler(this, &MyForm::CheckBox1_CheckedChanged);
 			// 
 			// COM_Ports
 			// 
@@ -208,7 +196,6 @@ namespace testApp2 {
 			this->messageOut->Name = L"messageOut";
 			this->messageOut->Size = System::Drawing::Size(185, 20);
 			this->messageOut->TabIndex = 10;
-			this->messageOut->Text = L"Enter here";
 			this->messageOut->TextChanged += gcnew System::EventHandler(this, &MyForm::messageOut_TextChanged);
 			// 
 			// Send_Button
@@ -266,7 +253,6 @@ namespace testApp2 {
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->Baud_Rate);
 			this->Controls->Add(this->COM_Ports);
-			this->Controls->Add(this->checkBox1);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->textBox1);
 			this->Name = L"MyForm";
@@ -304,70 +290,79 @@ namespace testApp2 {
 
 	private: System::Void ComboBox2_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
-		private: System::Void messageOut_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void messageOut_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void Init_Port_Button_Click(System::Object^ sender, System::EventArgs^ e) {
+
+		this->messageOut->Text = String::Empty;
+		this->messageIn->Text = String::Empty;
+
+		if (this->COM_Ports->Text == String::Empty || this->Baud_Rate->Text == String::Empty)
+		{
+			this->messageIn->Text = "Please Slelect Port Settings";
 		}
-		private: System::Void Read_Button_Click(System::Object^ sender, System::EventArgs^ e) {
-		}
-		private: System::Void Send_Button_Click(System::Object^ sender, System::EventArgs^ e) {
-		 }
-		private: System::Void Init_Port_Button_Click(System::Object^ sender, System::EventArgs^ e) {
-
-			this->messageOut->Text = String::Empty;
-			this->messageIn->Text = String::Empty;
-			if (this->COM_Ports->Text == String::Empty || this->Baud_Rate->Text == String::Empty)
-			{
-				this->messageIn->Text = "Please Slelect Port Settings";
-			}
-			else
-			{
+		else
+		{
 		
-				try {
+			try {
 
-					if (!this->serialPort1->IsOpen)
-					{
-						this->serialPort1->PortName = this->COM_Ports->Text;
-						this->serialPort1->BaudRate = Int32::Parse(this->Baud_Rate->Text);
+				if (!this->serialPort1->IsOpen)
+				{
+					this->serialPort1->PortName = this->COM_Ports->Text;
+					this->serialPort1->BaudRate = Int32::Parse(this->Baud_Rate->Text);
 
-						this->messageOut->Text = "Enter Message Here";
+					this->messageOut->Text = "Enter Message Here";
 
-						this->serialPort1->Open();
-						this->progressBar1->Value = 100;
+					this->serialPort1->Open();
+					this->progressBar1->Value = 100;
 
-						//enable init button
-						this->Send_Button->Enabled = true;
-						this->Read_Button->Enabled = true;
-						this->Close_Port->Enabled = true;
-						this->messageOut->Enabled = true;
+					//enable init button
+					this->Send_Button->Enabled = true;
+					this->Read_Button->Enabled = true;
+					this->Close_Port->Enabled = true;
+					this->messageOut->Enabled = true;
 
-						//disble buttons
-						this->Init_Port->Enabled = false;
-					}
-					else {
-						this->messageIn->Text = "port isn't open";
-					}
-		
-
+					//disble buttons
+					this->Init_Port->Enabled = false;
 				}
-				catch (UnauthorizedAccessException^) {
-					this->messageIn->Text = "UnauthorizedAccess";
+				else {
+					this->messageIn->Text = "port isn't open";
 				}
 			}
+			catch (UnauthorizedAccessException^) {
+				this->messageIn->Text = "UnauthorizedAccess";
+			}
 		}
-		private: System::Void MessageIn_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-		}
-		private: System::Void Close_Port_ButtonClick(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void MessageIn_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void Close_Port_ButtonClick(System::Object^ sender, System::EventArgs^ e) {
 
-			this->serialPort1->Close();
+		this->serialPort1->Close();
 
-			this->progressBar1->Value = 0;
-			//enable init button
-			this->Init_Port->Enabled = true;
-			//disble buttons
-			this->Send_Button->Enabled = false;
-			this->Read_Button->Enabled = false;
-			this->Close_Port->Enabled = false;
-			this->messageOut->Enabled = false;
-		}
+		this->progressBar1->Value = 0;
+		//enable init button
+		this->Init_Port->Enabled = true;
+		//disble buttons
+		this->Send_Button->Enabled = false;
+		this->Read_Button->Enabled = false;
+		this->Close_Port->Enabled = false;
+		this->messageOut->Enabled = false;
+	}
+	private: System::Void Read_Button_Click(System::Object^ sender, System::EventArgs^ e) {
+
+
+
+	}
+	private: System::Void Send_Button_Click(System::Object^ sender, System::EventArgs^ e) {
+		
+		///String^ name = this->serialPort1->PortName;
+		//grab test and add it to send buffer
+		String^ message = this->messageOut->Text;
+		//Write to serial
+		this->serialPort1->WriteLine(message);
+
+	}
 
 	};
 }
