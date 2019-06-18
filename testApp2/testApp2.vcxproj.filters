@@ -29,7 +29,7 @@
     <ClInclude Include="MyForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Settings.h">
+    <ClInclude Include="Settings_TS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

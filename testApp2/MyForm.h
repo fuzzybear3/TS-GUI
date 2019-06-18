@@ -1,5 +1,5 @@
 #pragma once
-#include "Settings.h"
+//#include "Settings_TS.h"
 
 
 namespace testApp2 {
@@ -206,7 +206,6 @@ namespace testApp2 {
 			this->messageIn->Size = System::Drawing::Size(366, 31);
 			this->messageIn->TabIndex = 9;
 			this->messageIn->Text = L"reciveed here";
-			this->messageIn->TextChanged += gcnew System::EventHandler(this, &MyForm::MessageIn_TextChanged);
 			// 
 			// messageOut
 			// 
@@ -216,7 +215,6 @@ namespace testApp2 {
 			this->messageOut->Name = L"messageOut";
 			this->messageOut->Size = System::Drawing::Size(366, 31);
 			this->messageOut->TabIndex = 10;
-			this->messageOut->TextChanged += gcnew System::EventHandler(this, &MyForm::messageOut_TextChanged);
 			// 
 			// Send_Button
 			// 
@@ -321,7 +319,7 @@ namespace testApp2 {
 			this->Get_Settings->TabIndex = 21;
 			this->Get_Settings->Text = L"Retreve Settings";
 			this->Get_Settings->UseVisualStyleBackColor = true;
-			this->Get_Settings->Click += gcnew System::EventHandler(this, &MyForm::Get_Settings_Click);
+		
 			// 
 			// MyForm
 			// 
@@ -350,7 +348,7 @@ namespace testApp2 {
 			this->Margin = System::Windows::Forms::Padding(6);
 			this->Name = L"MyForm";
 			this->Text = L"Terminal GUI";
-			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
+			//this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -358,166 +356,13 @@ namespace testApp2 {
 		}
 #pragma endregion
 
-	private: void findPorts(void)
-	{
-		array<Object^>^ objectArray = SerialPort::GetPortNames();
+		private: void findPorts(void);
+		private: void getSettings(void);
 
-		this->COM_Ports->Items->AddRange(objectArray);
-
-	}
-
-	private: void getSettings(void)
-	{
-		const int length = 5;
-		Settings currentSettings;
-		String^ message = "show config";
-		//Write to serial
-		this->serialPort1->WriteLine(message);
-
-		try
-		{
-			for (int i = 0; i < length; i++)
-			{
-				message = this->serialPort1->ReadLine();
-				switch (i)
-				{
-				case 1: 
-					//maxv
-				currentSettings.maxVoltage = Convert::ToInt32(message->Substring(2, 3));
-					break;
-
-				case 2:
-
-					
-					break;
-
-				}
-			}
-			
-		}
-		catch (TimeoutException^)
-		{
-			this->messageIn->Text = "TimeoutException";
-		}
-	
-		
-
-		
-	}
-
-			 //public: static void Read()
-			 //{
-				// while (_continue)
-				// {
-				//	 try
-				//	 {
-				//		 String^ message = serialPort1->ReadLine();
-				//		 //WriteLine(message);
-				//	 }
-				//	 catch (TimeoutException) {}
-				// }
-			 //}
-
-
-	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
-	}
-	private: System::Void messageOut_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	}
-	private: System::Void Init_Port_Button_Click(System::Object^ sender, System::EventArgs^ e) {
-
-		this->messageOut->Text = String::Empty;
-		this->messageIn->Text = String::Empty;
-
-		if (this->COM_Ports->Text == String::Empty || this->Baud_Rate->Text == String::Empty)
-		{
-			this->messageIn->Text = "Please Slelect Port Settings";
-		}
-		else
-		{
-
-			try {
-
-				if (!this->serialPort1->IsOpen)
-				{
-					this->serialPort1->PortName = this->COM_Ports->Text;
-					this->serialPort1->BaudRate = Int32::Parse(this->Baud_Rate->Text);
-
-					this->messageOut->Text = "Enter Message Here";
-
-					this->serialPort1->Open();
-					this->progressBar1->Value = 100;
-					
-					//enable init button
-					this->Send_Button->Enabled = true;
-					this->Read_Button->Enabled = true;
-					this->Close_Port->Enabled = true;
-					this->messageOut->Enabled = true;
-
-					//disble buttons
-					this->Init_Port->Enabled = false;
-				}
-				else {
-					this->messageIn->Text = "port isn't open";
-				}
-			}
-			//catch (UnauthorizedAccessException^) {
-			//catch (...) {
-			catch(IO::IOException^ ){
-				// getting weird Exception when connecting to some com ports.
-				this->messageIn->Text = "Exception thrown";
-			}
-		}
-	}
-	private: System::Void MessageIn_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-	}
-	private: System::Void Close_Port_ButtonClick(System::Object^ sender, System::EventArgs^ e) {
-
-		this->serialPort1->Close();
-
-		this->progressBar1->Value = 0;
-		//enable init button
-		this->Init_Port->Enabled = true;
-		//disble buttons
-		this->Send_Button->Enabled = false;
-		this->Read_Button->Enabled = false;
-		this->Close_Port->Enabled = false;
-		this->messageOut->Enabled = false;
-	}
-	private: System::Void Read_Button_Click(System::Object^ sender, System::EventArgs^ e) {
-		
-		try {
-			this->messageIn->Text = this->serialPort1->ReadLine();
-		}
-		catch(TimeoutException^) {
-			this->messageIn->Text = "Timeout Exception";
-		}
-
-
-	}
-	private: System::Void Send_Button_Click(System::Object^ sender, System::EventArgs^ e) {
-		
-		///String^ name = this->serialPort1->PortName;
-		//grab test and add it to send buffer
-		String^ message = this->messageOut->Text;
-		//Write to serial
-		this->serialPort1->WriteLine(message);
-
-
-	}
-
-private: System::Void Apply_settings_Click(System::Object^ sender, System::EventArgs^ e) {
-
-	//grab test and add it to send buffer
-	String^ message = "set maxc " + this->messageOut->Text;
-	//Write to serial
-	this->serialPort1->WriteLine(message);
-
-	message = "set maxv " + this->messageOut->Text;
-	this->serialPort1->WriteLine(message);
-
-}
-private: System::Void Get_Settings_Click(System::Object^ sender, System::EventArgs^ e) {
-
-}
+		private: System::Void Init_Port_Button_Click(System::Object^ sender, System::EventArgs^ e);
+		private: System::Void Close_Port_ButtonClick(System::Object^ sender, System::EventArgs^ e);
+		private: System::Void Read_Button_Click(System::Object^ sender, System::EventArgs^ e);
+		private: System::Void Send_Button_Click(System::Object^ sender, System::EventArgs^ e);
+		private: System::Void Apply_settings_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
