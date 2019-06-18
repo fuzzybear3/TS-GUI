@@ -1,6 +1,4 @@
-﻿  pch.cpp
-  AssemblyInfo.cpp
-  MyForm.cpp
+﻿  MyForm.cpp
   testApp2.cpp
   Generating Code...
   AssemblyInfo.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
