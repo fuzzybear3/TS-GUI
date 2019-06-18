@@ -1,4 +1,6 @@
 #pragma once
+#include "Settings.h"
+
 
 namespace testApp2 {
 
@@ -14,6 +16,9 @@ namespace testApp2 {
 	/// <summary>
 	/// Summary for MyForm
 	/// </summary>
+
+
+
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
@@ -21,6 +26,9 @@ namespace testApp2 {
 		{
 			InitializeComponent();
 			findPorts();
+
+			
+
 
 			//
 			//TODO: Add the constructor code here
@@ -360,17 +368,42 @@ namespace testApp2 {
 
 	private: void getSettings(void)
 	{
-
+		const int length = 5;
+		Settings currentSettings;
 		String^ message = "show config";
 		//Write to serial
 		this->serialPort1->WriteLine(message);
-		this->serialPort1->ReadLine();
 
+		try
+		{
+			for (int i = 0; i < length; i++)
+			{
+				message = this->serialPort1->ReadLine();
+				switch (i)
+				{
+				case 1: 
+					//maxv
+				currentSettings.maxVoltage = Convert::ToInt32(message->Substring(2, 3));
+					break;
+
+				case 2:
+
+					
+					break;
+
+				}
+			}
+			
+		}
+		catch (TimeoutException^)
+		{
+			this->messageIn->Text = "TimeoutException";
+		}
+	
 		
 
 		
 	}
-
 
 			 //public: static void Read()
 			 //{
