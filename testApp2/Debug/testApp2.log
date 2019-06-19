@@ -1,4 +1,4 @@
 ﻿  MyForm.cpp
-C:\Users\steve\Documents\GitHub\TS-GUI\testApp2\MyForm.cpp(165,10): warning C4101:  'message': unreferenced local variable
+C:\Users\steve\Documents\GitHub\TS-GUI\testApp2\MyForm.cpp(172,10): warning C4101:  'message': unreferenced local variable
   AssemblyInfo.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   testApp2.vcxproj -> C:\Users\steve\Documents\GitHub\TS-GUI\testApp2\Debug\testApp2.exe

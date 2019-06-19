@@ -19,11 +19,14 @@ void testApp2::MyForm::findPorts(void)
 	this->serialPort1->DiscardOutBuffer();
 	this->serialPort1->DiscardInBuffer();
 
-	const int length = 8;
+	const int length = 9;
 	TS_GUI::Settings currentSettings;
 	String^ configComand = "show config";
 	String^ message;
 	//Write to serial
+
+	//send twice
+	this->serialPort1->WriteLine(configComand);
 	this->serialPort1->WriteLine(configComand);
 
 	try
@@ -35,10 +38,14 @@ void testApp2::MyForm::findPorts(void)
 			if (message->Contains("maxc"))
 			{
 				
-				this->Max_Current->Text = message->Substring(12, 4);
+				
 				this->messageIn->Text = message->Substring(12, 4);
 				this->numericUpDown1->Value = Convert::ToInt32(message->Substring(12, 4));
-				currentSettings.maxVoltage = Convert::ToInt32(message->Substring(12, 4));
+				currentSettings.maxCurrent = Convert::ToInt32(message->Substring(12, 4));
+
+
+				this->Max_Current->Text = message->Substring(12, 4);
+
 			} 
 
 			//maxv

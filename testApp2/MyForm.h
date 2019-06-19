@@ -258,10 +258,12 @@ namespace testApp2 {
 			// 
 			// Max_Current
 			// 
-			this->Max_Current->Location = System::Drawing::Point(525, 105);
+			this->Max_Current->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->Max_Current->Location = System::Drawing::Point(525, 99);
 			this->Max_Current->MaxLength = 4;
 			this->Max_Current->Name = L"Max_Current";
-			this->Max_Current->Size = System::Drawing::Size(100, 31);
+			this->Max_Current->Size = System::Drawing::Size(100, 44);
 			this->Max_Current->TabIndex = 15;
 			// 
 			// label4
@@ -277,7 +279,7 @@ namespace testApp2 {
 			// 
 			// Apply_settings
 			// 
-			this->Apply_settings->Location = System::Drawing::Point(404, 340);
+			this->Apply_settings->Location = System::Drawing::Point(448, 340);
 			this->Apply_settings->Name = L"Apply_settings";
 			this->Apply_settings->Size = System::Drawing::Size(177, 53);
 			this->Apply_settings->TabIndex = 17;
@@ -297,22 +299,24 @@ namespace testApp2 {
 			// 
 			// Max_Voltage
 			// 
-			this->Max_Voltage->Location = System::Drawing::Point(525, 188);
+			this->Max_Voltage->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->Max_Voltage->Location = System::Drawing::Point(525, 182);
 			this->Max_Voltage->Name = L"Max_Voltage";
-			this->Max_Voltage->Size = System::Drawing::Size(100, 31);
+			this->Max_Voltage->Size = System::Drawing::Size(100, 44);
 			this->Max_Voltage->TabIndex = 19;
 			// 
 			// numericUpDown1
 			// 
 			this->numericUpDown1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
-			this->numericUpDown1->Location = System::Drawing::Point(611, 517);
+			this->numericUpDown1->Location = System::Drawing::Point(440, 613);
 			this->numericUpDown1->Name = L"numericUpDown1";
 			this->numericUpDown1->Size = System::Drawing::Size(161, 44);
 			this->numericUpDown1->TabIndex = 20;
 			// 
 			// Get_Settings
 			// 
-			this->Get_Settings->Location = System::Drawing::Point(154, 340);
+			this->Get_Settings->Location = System::Drawing::Point(206, 340);
 			this->Get_Settings->Name = L"Get_Settings";
 			this->Get_Settings->Size = System::Drawing::Size(195, 53);
 			this->Get_Settings->TabIndex = 21;
