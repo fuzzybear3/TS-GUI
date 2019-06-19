@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "MyForm.h"
 
+
+
 using namespace testApp2;
 
 void testApp2::MyForm::findPorts(void)
@@ -11,10 +13,10 @@ void testApp2::MyForm::findPorts(void)
 
 }
 
-void MyForm::getSettings(void)
+ TS_GUI::Settings MyForm::getSettings(void)
 {
 	const int length = 5;
-	//TS_GUI::Settings_TS currentSettings;
+	TS_GUI::Settings currentSettings;
 	String^ message = "show config";
 	String^ temp;
 	//Write to serial
@@ -37,6 +39,8 @@ void MyForm::getSettings(void)
 
 	//maxv
 	//currentSettings.maxVoltage = Convert::ToInt32(message->Substring(2, 3));
+
+	return currentSettings;
 
 }
 
@@ -136,13 +140,28 @@ void MyForm::getSettings(void)
 
 Void MyForm::Apply_settings_Click(Object^ sender, EventArgs^ e) {
 
-	//grab test and add it to send buffer
-	String^ message = "set maxc " + this->messageOut->Text;
-	//Write to serial
-	this->serialPort1->WriteLine(message);
+	const int length = 10;
+		// set maxc
+	for (int i = 0; i < length; i++)
+	{
+		String^ message = "set maxc " + this->Max_Current->Text;
+		this->serialPort1->WriteLine(message);
 
-	message = "set maxv " + this->messageOut->Text;
-	this->serialPort1->WriteLine(message);
+	}
+		
+		//set maxv
+	for (int i = 0; i < length; i++)
+	{
+		String^ message = "set maxv " + this->Max_Voltage->Text;
+		this->serialPort1->WriteLine(message);
+	}
 
+}
+
+Void testApp2::MyForm::Get_Settings_Click(Object^ sender, EventArgs^ e)
+{
+	//getSettings();
+
+	return System::Void();
 }
 

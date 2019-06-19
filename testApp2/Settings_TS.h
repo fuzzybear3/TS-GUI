@@ -1,10 +1,10 @@
-
+#pragma once
 namespace TS_GUI {
-
-	class Settings_TS
+	
+	class Settings
 	{
 	public:
-		Settings_TS();
+		Settings() {};
 
 		int maxCurrent = 0;
 		int maxVoltage = 0;
@@ -12,9 +12,5 @@ namespace TS_GUI {
 	private:
 
 	};
-
-	Settings_TS::Settings_TS()
-	{
-	}
 
 }

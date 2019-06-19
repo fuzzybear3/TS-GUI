@@ -1,5 +1,6 @@
 #pragma once
-//#include "Settings_TS.h"
+
+#include "Settings_TS.h"
 
 
 namespace testApp2 {
@@ -100,9 +101,6 @@ namespace testApp2 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			//Thread readThread = (gcnew Thread(Read));
-
-
 			this->components = (gcnew System::ComponentModel::Container());
 			this->serialPort1 = (gcnew System::IO::Ports::SerialPort(this->components));
 			this->COM_Ports = (gcnew System::Windows::Forms::ComboBox());
@@ -319,7 +317,7 @@ namespace testApp2 {
 			this->Get_Settings->TabIndex = 21;
 			this->Get_Settings->Text = L"Retreve Settings";
 			this->Get_Settings->UseVisualStyleBackColor = true;
-		
+			this->Get_Settings->Click += gcnew System::EventHandler(this, &MyForm::Get_Settings_Click);
 			// 
 			// MyForm
 			// 
@@ -348,7 +346,6 @@ namespace testApp2 {
 			this->Margin = System::Windows::Forms::Padding(6);
 			this->Name = L"MyForm";
 			this->Text = L"Terminal GUI";
-			//this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -357,12 +354,13 @@ namespace testApp2 {
 #pragma endregion
 
 		private: void findPorts(void);
-		private: void getSettings(void);
+		private: TS_GUI::Settings getSettings(void);
 
 		private: System::Void Init_Port_Button_Click(System::Object^ sender, System::EventArgs^ e);
 		private: System::Void Close_Port_ButtonClick(System::Object^ sender, System::EventArgs^ e);
 		private: System::Void Read_Button_Click(System::Object^ sender, System::EventArgs^ e);
 		private: System::Void Send_Button_Click(System::Object^ sender, System::EventArgs^ e);
 		private: System::Void Apply_settings_Click(System::Object^ sender, System::EventArgs^ e);
+		private: System::Void Get_Settings_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
