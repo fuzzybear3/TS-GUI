@@ -15,48 +15,62 @@ void testApp2::MyForm::findPorts(void)
 
  TS_GUI::Settings MyForm::getSettings(void)
 {
-	const int length = 5;
+	// clean buffer
+	this->serialPort1->DiscardOutBuffer();
+	this->serialPort1->DiscardInBuffer();
+
+	const int length = 8;
 	TS_GUI::Settings currentSettings;
-	String^ message = "show config";
-	String^ temp;
+	String^ configComand = "show config";
+	String^ message;
 	//Write to serial
-	this->serialPort1->WriteLine(message);
+	this->serialPort1->WriteLine(configComand);
 
 	try
 	{
 		for (int i = 0; i < length; i++)
 		{
-			temp = this->serialPort1->ReadLine();
-			message->Concat(temp);
+			message = this->serialPort1->ReadLine();
+			//maxc
+			if (message->Contains("maxc"))
+			{
+				
+				this->Max_Current->Text = message->Substring(12, 4);
+				this->messageIn->Text = message->Substring(12, 4);
+				this->numericUpDown1->Value = Convert::ToInt32(message->Substring(12, 4));
+				currentSettings.maxVoltage = Convert::ToInt32(message->Substring(12, 4));
+			} 
+
+			//maxv
+			if (message->Contains("maxv"))
+			{
+				this->Max_Voltage->Text = message->Substring(12, 4);
+				currentSettings.maxCurrent = Convert::ToInt32(message->Substring(12, 4));
+			}
+
+	
 		}
-		this->messageIn->Text = message;
+		
 	}
 	catch (TimeoutException^)
 	{
 		this->messageIn->Text = "TimeoutException";
 	}
+	catch (ArgumentOutOfRangeException^)
+	{
+		this->messageIn->Text = "ArgumentOutOfRangeException";
+	}
+	catch (FormatException^)
+	{
+		this->messageIn->Text = "FormatException";
+	}
 
-
-	//maxv
-	//currentSettings.maxVoltage = Convert::ToInt32(message->Substring(2, 3));
 
 	return currentSettings;
 
 }
 
-			 //public: static void Read()
-			 //{
-				// while (_continue)
-				// {
-				//	 try
-				//	 {
-				//		 String^ message = serialPort1->ReadLine();
-				//		 //WriteLine(message);
-				//	 }
-				//	 catch (TimeoutException) {}
-				// }
-			 //}
-
+		
 
 	Void MyForm::Init_Port_Button_Click(Object^ sender, EventArgs^ e) {
 
@@ -101,6 +115,11 @@ void testApp2::MyForm::findPorts(void)
 				// getting weird Exception when connecting to some com ports.
 				this->messageIn->Text = "Exception thrown";
 			}
+			catch (UnauthorizedAccessException^)
+			{
+				this->messageIn->Text = "UnauthorizedAccessException";
+			}
+		
 		}
 	}
 	Void MyForm::Close_Port_ButtonClick(Object^ sender, EventArgs^ e) {
@@ -139,20 +158,22 @@ void testApp2::MyForm::findPorts(void)
 	}
 
 Void MyForm::Apply_settings_Click(Object^ sender, EventArgs^ e) {
+	this->serialPort1->DiscardOutBuffer();
+	this->serialPort1->DiscardInBuffer();
 
-	const int length = 10;
+	const int length = 4;
+	String^ message;
 		// set maxc
 	for (int i = 0; i < length; i++)
 	{
 		String^ message = "set maxc " + this->Max_Current->Text;
 		this->serialPort1->WriteLine(message);
 
-	}
+
 		
 		//set maxv
-	for (int i = 0; i < length; i++)
-	{
-		String^ message = "set maxv " + this->Max_Voltage->Text;
+	
+		message = "set maxv " + this->Max_Voltage->Text;
 		this->serialPort1->WriteLine(message);
 	}
 
@@ -160,8 +181,9 @@ Void MyForm::Apply_settings_Click(Object^ sender, EventArgs^ e) {
 
 Void testApp2::MyForm::Get_Settings_Click(Object^ sender, EventArgs^ e)
 {
-	//getSettings();
-
-	return System::Void();
+	TS_GUI::Settings MySettings = getSettings();
+	//this->Max_Voltage->Text = Convert::ToString(MySettings.maxVoltage);
+//	this->Max_Current->Text = Convert::ToString(MySettings.maxCurrent);
+	//return System::Void();
 }
 

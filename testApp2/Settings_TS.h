@@ -6,8 +6,8 @@ namespace TS_GUI {
 	public:
 		Settings() {};
 
-		int maxCurrent = 0;
-		int maxVoltage = 0;
+		int maxCurrent;
+		int maxVoltage;
 
 	private:
 

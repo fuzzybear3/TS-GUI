@@ -304,9 +304,10 @@ namespace testApp2 {
 			// 
 			// numericUpDown1
 			// 
+			this->numericUpDown1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12));
 			this->numericUpDown1->Location = System::Drawing::Point(611, 517);
 			this->numericUpDown1->Name = L"numericUpDown1";
-			this->numericUpDown1->Size = System::Drawing::Size(120, 31);
+			this->numericUpDown1->Size = System::Drawing::Size(161, 44);
 			this->numericUpDown1->TabIndex = 20;
 			// 
 			// Get_Settings
