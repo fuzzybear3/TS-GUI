@@ -1,16 +1,14 @@
 #pragma once
-namespace TS_GUI {
-	
-	class Settings
-	{
-	public:
-		Settings() {};
 
-		int maxCurrent;
-		int maxVoltage;
 
-	private:
 
-	};
+public ref class Settings
+{
+public:
+	Settings() {};
+	System::String^ maxCurrent;
+	System::String^ maxVoltage;
 
-}
+private:
+
+};
